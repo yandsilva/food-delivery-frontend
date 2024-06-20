@@ -5,14 +5,14 @@ const Header = () => {
   return (
     <div className="header">
       <div className="header-contents">
-        <h2>Order your favourite food here</h2>
+        <h2>Encomende aqui a sua comida preferida</h2>
         <p>
-          Choose from a diverse menu featuring a delectable array of crafted
-          with the finest ingredients and culinary expertise. Our mission isto
-          satisfy your cravings and elevate your dining experience, one
-          delicious meal at a time
+          Escolha entre um menu diversificado com uma deliciosa variedade de
+          pratos artesanais com os melhores ingredientes e experiência
+          culinária. Nossa missão é satisfazer seus desejos e elevar sua
+          experiência gastronômica, um deliciosa refeição de cada vez
         </p>
-        <button>View Menu</button>
+        <button>Ver cardápio</button>
       </div>
     </div>
   );

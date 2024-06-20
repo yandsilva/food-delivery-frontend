@@ -4,7 +4,7 @@ import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 
 const LoginPopup = ({ setShowLogin }) => {
-  const [currState, setCurrState] = useState("Sign Up");
+  const [currState, setCurrState] = useState("Cadastro");
 
   return (
     <div className="login-popup">
@@ -21,26 +21,29 @@ const LoginPopup = ({ setShowLogin }) => {
           {currState === "Login" ? (
             <></>
           ) : (
-            <input type="text" placeholder="Your name" required />
+            <input type="text" placeholder="Nome completo" required />
           )}
 
-          <input type="email" placeholder="You email" required />
-          <input type="password" placeholder="Password" required />
+          <input type="email" placeholder="Seu email" required />
+          <input type="password" placeholder="Senha" required />
         </div>
-        <button>{currState === "Sign Up" ? "Create account" : "Login"}</button>
+        <button>{currState === "Cadastro" ? "Criar conta" : "Entrar"}</button>
         <div className="login-popup-condition">
           <input type="checkbox" required />
-          <p>By continuing, i agree to the terms of use & privacy policy</p>
+          <p>
+            Ao continuar, concordo com os termos de uso e políticas de
+            privacidade
+          </p>
         </div>
         {currState === "Login" ? (
           <p>
-            Create a new account?{" "}
-            <span onClick={() => setCurrState("Sign Up")}>Click here</span>
+            Criar uma nova conta?{" "}
+            <span onClick={() => setCurrState("Sign Up")}>Clique aqui</span>
           </p>
         ) : (
           <p>
-            Already have an account?{" "}
-            <span onClick={() => setCurrState("Login")}>Login here</span>
+            Já tem uma conta?{" "}
+            <span onClick={() => setCurrState("Login")}>Entre aqui</span>
           </p>
         )}
       </form>

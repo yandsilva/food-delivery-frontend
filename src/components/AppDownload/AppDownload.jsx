@@ -6,7 +6,7 @@ const AppDownload = () => {
   return (
     <div className="app-download" id="app-download">
       <p>
-        For Better Experience Dowload <br />
+        Para uma melhor experiência, baixe <br />
         Tomato App
         <div className="app-download-platforms">
           <img src={assets.play_store} alt="" />

@@ -14,12 +14,12 @@ const Cart = () => {
     <div className="cart">
       <div className="cart-items">
         <div className="cart-items-title">
-          <p>Items</p>
-          <p>Title</p>
-          <p>Price</p>
-          <p>Quantity</p>
+          <p>Itens</p>
+          <p>Prato</p>
+          <p>Valor</p>
+          <p>Quantidade</p>
           <p>Total</p>
-          <p>Remove</p>
+          <p>Remover</p>
         </div>
         <br />
         <hr />
@@ -30,9 +30,9 @@ const Cart = () => {
                 <div className="cart-items-title cart-items-item">
                   <img src={item.image} alt="" />
                   <p>{item.name}</p>
-                  <p>${item.price}</p>
+                  <p>R${item.price}</p>
                   <p>{cartItems[item._id]}</p>
-                  <p>${item.price * cartItems[item._id]}</p>
+                  <p>R${item.price * cartItems[item._id]}</p>
                   <p onClick={() => removeFromCart(item._id)} className="cross">
                     x
                   </p>
@@ -45,35 +45,33 @@ const Cart = () => {
       </div>
       <div className="cart-bottom">
         <div className="cart-total">
-          <h2>Cart Totals</h2>
+          <h2>Totais do carrinho</h2>
           <div>
             <div className="cart-total-details">
               <p>Subtotal</p>
-              <p>${getTotalCartAmount()}</p>
+              <p>R${getTotalCartAmount()}</p>
             </div>
             <hr />
             <div className="cart-total-details">
-              <p>Delivery Free</p>
-              <p>{getTotalCartAmount() === 0 ? 0 : +2}</p>
+              <p>Entrega Grátis</p>
+              <p>R${getTotalCartAmount() === 0 ? 0 : +2}</p>
             </div>
             <hr />
             <div className="cart-total-details">
               <p>Total</p>
               <b>
-                ${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}
+                R${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}
               </b>
             </div>
           </div>
-          <button onClick={() => navigate("/order")}>
-            PROCEED TO CHECKOUT
-          </button>
+          <button onClick={() => navigate("/order")}>FECHAR O PEDIDO</button>
         </div>
         <div className="cart-promocode">
           <div>
-            <p>If you have a promo code, Enter it here</p>
+            <p>Se você tiver um código promocional, insira-o aqui</p>
             <div className="cart-promocode-input">
               <input type="text" placeholder="promo code" />
-              <button>Submit</button>
+              <button>Enviar</button>
             </div>
           </div>
         </div>
