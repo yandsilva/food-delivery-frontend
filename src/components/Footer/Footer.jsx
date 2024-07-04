@@ -22,16 +22,16 @@ const Footer = () => {
           </div>
         </div>
         <div className="footer-content-center">
-          <h2>COMPANY</h2>
+          <h2>EMPRESA</h2>
           <ul>
-            <li>Home</li>
-            <li>About us</li>
+            <li>Inicio</li>
+            <li>Sobre nós</li>
             <li>Delivery</li>
-            <li>Privacy Policy</li>
+            <li>Politicas de privacidade</li>
           </ul>
         </div>
         <div className="footer-content-right">
-          <h2>GET IN TOUCH</h2>
+          <h2>ENTRAR EM CONTATO</h2>
           <ul>
             <li>+55(14)9999-9999</li>
             <li>contact@tomato.com</li>
