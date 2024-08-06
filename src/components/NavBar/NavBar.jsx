@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { assets } from "../../assets/assets";
-
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import { StoreContext } from "../../context/StoreContext";
 
@@ -9,6 +8,14 @@ const NavBar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("home");
 
   const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
+
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken("");
+    navigate("/");
+  };
 
   return (
     <div className="navbar">
@@ -65,7 +72,7 @@ const NavBar = ({ setShowLogin }) => {
                 <p>Pedidos</p>
               </li>
               <hr />
-              <li>
+              <li onClick={logout}>
                 <img src={assets.logout_icon} alt="" />
                 Sair
               </li>
