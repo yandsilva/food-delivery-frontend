@@ -29,7 +29,7 @@ Inclua comandos de terminal.
 ## Clone o repositório:
 
 ```bash
-git clone https://github.com/yandsilva/food-delivery.git
+git clone https://github.com/yandsilva/food-delivery-frontend.git
 ```
 
 ## Entre no diretório do projeto
