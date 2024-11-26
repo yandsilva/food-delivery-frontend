@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 
 import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
@@ -31,13 +31,15 @@ const LoginPopup = ({ setShowLogin }) => {
 
     const response = await axios.post(newUrl, data);
 
-    if (response.data.success) {
+    if (response.data) {
       setToken(response.data.token);
       localStorage.setItem("token", response.data.token);
       setShowLogin(false);
     } else {
-      alert(response.data.message);
+      alert(response.data);
     }
+
+    console.log(response.data);
   };
 
   return (

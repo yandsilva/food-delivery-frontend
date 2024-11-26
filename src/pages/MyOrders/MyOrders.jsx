@@ -17,9 +17,17 @@ const MyOrders = () => {
     setData(response.data.data);
   };
 
+  console.log(data);
+
   useEffect(() => {
     if (token) {
       fetchOrders();
+
+      // const interval = setInterval(() => {
+      //   fetchOrders();
+      // }, 5000);
+
+      // return () => clearInterval(interval);
     }
   }, [token]);
 
