@@ -9,31 +9,7 @@ const StoreContextProvider = (props) => {
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([]);
 
-  const addToCart = async (itemId) => {
-    if (!cartItems[itemId]) {
-      setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
-    } else {
-      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-    }
-    if (token) {
-      await axios.post(
-        url + "/api/cart/add",
-        { itemId },
-        { headers: { token } }
-      );
-    }
-  };
-
-  const removeFromCart = async (itemId) => {
-    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
-    if (token) {
-      await axios.post(
-        url + "/api/cart/remove",
-        { itemId },
-        { headers: { token } }
-      );
-    }
-  };
+  // Função para adicionar item ao carrinho
 
   const getTotalCartAmount = () => {
     let totalAmount = 0;
@@ -52,31 +28,34 @@ const StoreContextProvider = (props) => {
   };
 
   const loadCartData = async (token) => {
-    const response = await axios.post(
-      url + "/api/cart/get",
-      {},
-      { headers: { token } }
-    );
-    setCartItems(response.data.cartData);
+    if (!token) return;
+
+    try {
+      const response = await axios.get(`${url}/api/cart`, {
+        headers: { token },
+      });
+      setCartItems(response.data);
+    } catch (error) {
+      console.error("Error ao carregar carrinho", error);
+    }
   };
 
   useEffect(() => {
-    async function loadData() {
+    const initialize = async () => {
       await fetchFoodList();
-      if (localStorage.getItem("token")) {
-        setToken(localStorage.getItem("token"));
-        await loadCartData(localStorage.getItem("token"));
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        setToken(storedToken);
+        await loadCartData();
       }
-    }
-    loadData();
-  }, []);
+    };
+    initialize();
+  }, [token]);
 
   const contextValue = {
     food_list,
     cartItems,
     setCartItems,
-    addToCart,
-    removeFromCart,
     getTotalCartAmount,
     url,
     token,

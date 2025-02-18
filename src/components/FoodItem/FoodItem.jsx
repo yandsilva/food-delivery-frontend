@@ -1,11 +1,71 @@
-import React, { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./FoodItem.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
+import axios from "axios";
+
+const API_URL = "http://localhost:4000";
+const USER_ID = "b3dc0da6-dbb7-410f-bb91-44d6431c11eb";
 
 const FoodItem = ({ id, name, price, description, image }) => {
-  const { cartItems, addToCart, removeFromCart, url } =
-    useContext(StoreContext);
+  const { cartItems, url } = useContext(StoreContext);
+  const [quantity, setQuantity] = useState();
+
+  // console.log(quantity);
+
+  useEffect(() => {
+    const fetchCartItem = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/cart/getcart`, {
+          params: {
+            userId: USER_ID,
+          },
+        });
+        // console.log(response.data.length);
+
+        const item = response.data.find((item) => item.foodId === id);
+        if (item) {
+          setQuantity(item.quantity);
+        }
+        // console.log(item);
+      } catch (error) {
+        console.error("Error fetching cart item:", error);
+      }
+    };
+
+    fetchCartItem();
+  }, [id]);
+
+  const handleAddToCart = async () => {
+    try {
+      const response = await axios.post(`${API_URL}/api/cart/updated`, {
+        userId: USER_ID,
+        foodId: id,
+        action: "increment",
+      });
+      console.log(response);
+      if (response.status === 200) {
+        setQuantity(response.data);
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
+  };
+
+  const handleRemoveFromCart = async () => {
+    try {
+      const response = await axios.post(`${API_URL}/api/cart/updated`, {
+        userId: USER_ID,
+        foodId: id,
+        action: "decrement",
+      });
+      if (response.status === 200) {
+        setQuantity(response.data);
+      }
+    } catch (error) {
+      console.error("Error removing from cart:", error);
+    }
+  };
 
   return (
     <div className="food-item">
@@ -15,26 +75,22 @@ const FoodItem = ({ id, name, price, description, image }) => {
           src={url + "/images/" + image}
           alt=""
         />
-        {!cartItems[id] ? (
+        {quantity === 0 ? (
           <img
             className="add"
-            onClick={() => addToCart(id)}
+            onClick={handleAddToCart}
             src={assets.add_icon_white}
             alt=""
           />
         ) : (
           <div className="food-item-counter">
             <img
-              onClick={() => removeFromCart(id)}
+              onClick={handleRemoveFromCart}
               src={assets.remove_icon_red}
               alt=""
             />
             <p>{cartItems[id]}</p>
-            <img
-              onClick={() => addToCart(id)}
-              src={assets.add_icon_green}
-              alt=""
-            />
+            <img onClick={handleAddToCart} src={assets.add_icon_green} alt="" />
           </div>
         )}
       </div>
