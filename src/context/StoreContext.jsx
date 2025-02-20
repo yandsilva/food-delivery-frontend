@@ -8,6 +8,7 @@ const StoreContextProvider = (props) => {
   const url = "http://localhost:4000";
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([]);
+  const USER_ID = localStorage.getItem("id");
 
   // Função para adicionar item ao carrinho
 
@@ -60,6 +61,7 @@ const StoreContextProvider = (props) => {
     url,
     token,
     setToken,
+    USER_ID,
   };
   return (
     <StoreContext.Provider value={contextValue}>

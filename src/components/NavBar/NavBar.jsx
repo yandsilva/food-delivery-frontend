@@ -1,13 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import { StoreContext } from "../../context/StoreContext";
+import axios from "axios";
 
 const NavBar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("home");
+  const [quantity, setQuantity] = useState();
 
-  const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
+  const { USER_ID, token, setToken, url } = useContext(StoreContext);
 
   const navigate = useNavigate();
 
@@ -16,6 +18,23 @@ const NavBar = ({ setShowLogin }) => {
     setToken("");
     navigate("/");
   };
+
+  useEffect(() => {
+    const fetchCartItem = async () => {
+      try {
+        const response = await axios.get(`${url}/api/cart/getcart`, {
+          params: {
+            userId: USER_ID,
+          },
+        });
+        setQuantity(response.data.length);
+      } catch (error) {
+        console.error("Error fetching cart item:", error);
+      }
+    };
+
+    fetchCartItem();
+  }, []);
 
   return (
     <div className="navbar">
@@ -59,7 +78,7 @@ const NavBar = ({ setShowLogin }) => {
             {" "}
             <img src={assets.basket_icon} alt="" />
           </Link>
-          <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
+          <div className={quantity === 0 ? "" : "dot"}></div>
         </div>
         {!token ? (
           <button onClick={() => setShowLogin(true)}>Entrar</button>

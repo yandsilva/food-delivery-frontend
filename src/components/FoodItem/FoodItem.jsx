@@ -4,48 +4,42 @@ import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
 
-const API_URL = "http://localhost:4000";
-const USER_ID = "b3dc0da6-dbb7-410f-bb91-44d6431c11eb";
-
 const FoodItem = ({ id, name, price, description, image }) => {
-  const { cartItems, url } = useContext(StoreContext);
+  const { url, USER_ID } = useContext(StoreContext);
   const [quantity, setQuantity] = useState();
-
-  // console.log(quantity);
 
   useEffect(() => {
     const fetchCartItem = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/cart/getcart`, {
+        const response = await axios.get(`${url}/api/cart/getcart`, {
           params: {
             userId: USER_ID,
           },
         });
-        // console.log(response.data.length);
 
         const item = response.data.find((item) => item.foodId === id);
         if (item) {
           setQuantity(item.quantity);
         }
-        // console.log(item);
       } catch (error) {
         console.error("Error fetching cart item:", error);
       }
     };
 
     fetchCartItem();
-  }, [id]);
+  }, [url, id]);
 
   const handleAddToCart = async () => {
     try {
-      const response = await axios.post(`${API_URL}/api/cart/updated`, {
+      const response = await axios.post(`${url}/api/cart/updated`, {
         userId: USER_ID,
         foodId: id,
-        action: "increment",
+        quantity: "increment",
       });
-      console.log(response);
+      console;
+
       if (response.status === 200) {
-        setQuantity(response.data);
+        setQuantity(response.data.quantity);
       }
     } catch (error) {
       console.error("Error adding to cart:", error);
@@ -54,13 +48,13 @@ const FoodItem = ({ id, name, price, description, image }) => {
 
   const handleRemoveFromCart = async () => {
     try {
-      const response = await axios.post(`${API_URL}/api/cart/updated`, {
+      const response = await axios.post(`${url}/api/cart/updated`, {
         userId: USER_ID,
         foodId: id,
-        action: "decrement",
+        quantity: "decrement",
       });
       if (response.status === 200) {
-        setQuantity(response.data);
+        setQuantity(response.data.quantity);
       }
     } catch (error) {
       console.error("Error removing from cart:", error);
@@ -89,7 +83,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
               src={assets.remove_icon_red}
               alt=""
             />
-            <p>{cartItems[id]}</p>
+            <p>{quantity}</p>
             <img onClick={handleAddToCart} src={assets.add_icon_green} alt="" />
           </div>
         )}
